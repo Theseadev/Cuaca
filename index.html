@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Personal Weather Dashboard</title>
+    <link rel="stylesheet" href="style.css"/>
+    <link rel="manifest" href="manifest.json"/>
+    <link rel="icon" href="icon.png" type="image/png"/>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for better icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.min.js"></script>
+</head>
+<body>
+    <!-- Animated Background Elements -->
+    <div class="animated-background">
+        <!-- Light theme elements (day sky with clouds) -->
+        <div class="sky-element cloud1"></div>
+        <div class="sky-element cloud2"></div>
+        <div class="sky-element cloud3"></div>
+        <div class="sky-element sun"></div>
+        
+        <!-- Dark theme elements (space/galaxy) -->
+        <div class="sky-element moon"></div>
+        <div class="sky-element star star1"></div>
+        <div class="sky-element star star2"></div>
+        <div class="sky-element star star3"></div>
+        <div class="sky-element star star4"></div>
+        <div class="sky-element star star5"></div>
+        <div class="sky-element meteor"></div>
+    </div>
+    
+    <div class="container">
+        <div class="header-controls">
+            <h1><i class="fas fa-cloud-sun"></i> Personal Weather Dashboard</h1>
+            <div class="controls-group">
+                <button id="themeToggle" class="theme-toggle-btn">
+                    <i class="fas fa-moon"></i> Ganti Tema
+                </button>
+                <button id="exportData" class="export-btn">
+                    <i class="fas fa-file-export"></i> Ekspor Data
+                </button>
+                <button id="notificationBtn" class="notification-btn">
+                    <i class="fas fa-bell"></i> Notifikasi
+                    <span id="notificationBadge" class="notification-badge">0</span>
+                </button>
+                
+                <!-- Notification Panel -->
+                <div id="notificationPanel" class="notification-panel">
+                    <div class="notification-header">
+                        <h3>Notifikasi</h3>
+                        <button id="closeNotifications"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div id="notificationList" class="notification-list">
+                        <!-- Notifications will be added here -->
+                    </div>
+                    <div class="notification-footer">
+                        <button id="clearNotifications">Hapus Semua</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="search-section">
+            <div class="search-container">
+                <div class="input-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="cityInput" placeholder="Masukkan nama kota (contoh: Jakarta, London, Tokyo)">
+                </div>
+                <button onclick="addCity()" class="add-city-btn">
+                    <i class="fas fa-plus"></i> Tambah Kota
+                </button>
+            </div>
+            <button class="current-location-btn" onclick="getCurrentLocationWeather()">
+                <i class="fas fa-map-marker-alt"></i> Gunakan Lokasi Saat Ini
+            </button>
+        </div>
+
+        <div id="errorMessage" class="error-message" style="display: none;">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="errorText"></span>
+        </div>
+        
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <span>Memuat data cuaca...</span>
+        </div>
+        
+        <div id="weatherContainer" class="weather-grid"></div>
+        
+        <div class="empty-state" id="emptyState">
+            <div class="empty-state-icon">
+                <i class="fas fa-cloud"></i>
+            </div>
+            <p>Belum ada kota yang ditambahkan.</p>
+            <p class="empty-state-subtext">Mulai dengan menambahkan kota atau gunakan lokasi saat ini!</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Register service worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(reg => console.log('Service Worker registered'))
+                    .catch(err => console.error('Service Worker registration failed:', err));
+            });
+        }
+    </script>
+</body>
+</html> 
